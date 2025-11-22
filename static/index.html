@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Resume Screener - Intelligent Talent Analytics</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Space+Grotesk:wght@700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="grid-background"></div>
+
+    <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <div class="container">
+        <header class="hero-header">
+            <h1 class="hero-title">
+                <span class="title-gradient">Smart Resume</span>
+                <span class="title-outline">Screener</span>
+            </h1>
+            <p class="hero-subtitle">Intelligent Talent Analytics & Matching Platform</p>
+
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <div class="stat-value" id="statResumes">0</div>
+                    <div class="stat-label">Resumes Analyzed</div>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <div class="stat-value" id="statAccuracy">99.9%</div>
+                    <div class="stat-label">Match Accuracy</div>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <div class="stat-value" id="statTime">&lt;2s</div>
+                    <div class="stat-label">Avg. Processing</div>
+                </div>
+            </div>
+        </header>
+
+        <section class="input-section glass-panel">
+            <div class="section-tag">Step 1</div>
+            <form id="analyzeForm">
+                <div class="grid-layout">
+                    <div class="input-column">
+                        <div class="section-header">
+                            <div class="header-icon">📝</div>
+                            <div>
+                                <h3>Job Description</h3>
+                                <p class="header-subtitle">Define your ideal candidate requirements</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="jdText"
+                                placeholder="Enter job description, required skills, qualifications..."
+                                required></textarea>
+                            <div class="char-counter">
+                                <span id="charCount">0</span> characters
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="input-column">
+                        <div class="section-header">
+                            <div class="header-icon">📤</div>
+                            <div>
+                                <h3>Upload Resumes</h3>
+                                <p class="header-subtitle">PDF format, multiple files supported</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="resumeUpload" class="upload-area">
+                                <div class="upload-content">
+                                    <div class="upload-icon-wrapper">
+                                        <svg class="upload-icon" xmlns="http://www.w3.org/2000/svg" width="48"
+                                            height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2">
+                                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                            <polyline points="17 8 12 3 7 8"></polyline>
+                                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                                        </svg>
+                                    </div>
+                                    <h4>Drop files here or click to browse</h4>
+                                    <p>Supports: PDF files only</p>
+                                </div>
+                                <input type="file" id="resumeUpload" accept=".pdf" multiple>
+                            </label>
+
+                            <div id="fileList" class="file-list"></div>
+
+                            <button type="button" id="addMoreBtn" class="add-more-btn" style="display: none;">
+                                <span class="btn-icon">+</span>
+                                Add More Files
+                            </button>
+                        </div>
+
+                        <button type="submit" id="submitBtn" class="analyze-btn">
+                            <span class="btn-text">Analyze Resumes</span>
+                            <span class="btn-icon-right">→</span>
+                            <div class="loader" id="btnLoader"></div>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </section>
+
+        <div class="results-content hidden" id="resultsContent">
+            <div class="section-tag">Results</div>
+
+            <div class="analytics-header">
+                <h2 class="section-title">📊 Analytics Dashboard</h2>
+            </div>
+
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>📈 Score Distribution</h3>
+                        <span class="chart-badge">Live Data</span>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="scoreChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>🎓 Degree Analysis</h3>
+                        <span class="chart-badge">AI Detected</span>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="degreeChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="candidates-section">
+                <h2 class="section-title">👥 Candidate Rankings</h2>
+                <div class="candidates-list" id="candidatesList">
+                    <!-- Injected via JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="app-footer">
+        <p>Powered by Advanced Machine Learning</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
